@@ -1,92 +1,51 @@
-var browserify = require('browserify-middleware')//99.9% sure dont use or need
 var express = require('express')
 var Path = require('path')
 var axios = require('axios')
 var url = require('url')
-//var useData = require('../client/useData')
 var $ = require('jquery');
 var bodyParser = require('body-parser')
 
-//i have these in my api keys folder
-//var googleKey = 
-//var darkskyKey =
+
 var routes = express.Router()
 
 routes.use(bodyParser.json());
-//
-// Provide a browserified file at a specified path
-//
-//routes.get('/app-bundle.js',
- // browserify('./client/app.js'))
 
-//
-// Example endpoint (also tested in test/server/index_test.js)
-//
-
+//endpoint to call and get list of 10 movies
 routes.get('/gogo', function(req, res) {
-  console.log('PJ')
-  //res.send(['node', 'express', 'browserify', 'mithril'])
    var url_parts = url.parse(req.url,true);
    var query = url_parts.query;
   //console.log(query);
-  console.log(query.search)
-  
+  //console.log(query.search)
+  //api call to get top 10 results
     axios.get('http://www.omdbapi.com/?s='+query.search)
-    //axios.get('http://google.com')
-
       .then(function(resp){
-
         //console.log(resp.data);
         res.send(resp.data)
-        //useData.showData(resp);
-        //console.log('PJPJPJPJPJPJPJ')
         
-        //console.log(lat,long,'pjpj')
-        /*
-        axios.get()
-
-        .then(function(resp){
-          //console.log(resp.data)
-
-          res.send(resp.data);
-          return;
-        })
-        */
-        //res.send(resp.data);
         return;
       }).catch(function(){
         console.log('api call failed')
       })
    
-
-
 })
+//endpoint to get information on the movie clicked on
 routes.get('/imdb', function(req, res) {
-  console.log('PJ')
-  //res.send(['node', 'express', 'browserify', 'mithril'])
    var url_parts = url.parse(req.url,true);
    var query = url_parts.query;
-  //console.log(query);
-  console.log(query.imdb)
-  
+  //api call to get single movie info
     axios.get('http://www.omdbapi.com/?i='+query.imdb)
     //axios.get('http://google.com')
-
       .then(function(resp){
-
-        console.log(resp.data);
+        //console.log(resp.data);
         res.send(resp.data)
-        
         return;
       }).catch(function(){
         console.log('api call failed')
       })
    
-
-
 })
 
-
+//everything under this is from boilerplate i used
 routes.get('/api/tags-example', function(req, res) {
   res.send(['node', 'express', 'browserify', 'mithril'])
 })
